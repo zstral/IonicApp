@@ -1,0 +1,40 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-header>
+    <h1>¡Hola {{data.username}}!</h1>
+    <p>Necesitamos un poco más de información sobre ti.</p>
+  </ion-header>
+
+  <form #signupextendedForm="ngForm" (ngSubmit)="onSubmit(signupextendedForm)">
+    <ion-list>
+      <ion-item>
+        <ion-input type="text" label="Nombre" labelPlacement="floating" [(ngModel)]="userExtended.nombre" name="nombre" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" label="Apellido" labelPlacement="floating" [(ngModel)]="userExtended.apellido" name="apellido"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Nivel de educación" label-placement="floating" [(ngModel)]="userExtended.nivelEducacion" name="nivelEducacion">
+          <ion-select-option value="basico">Básico</ion-select-option>
+          <ion-select-option value="medio">Medio</ion-select-option>
+          <ion-select-option value="tecnico">Técnico</ion-select-option> <ion-select-option value="profesional">Profesional</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-header>Fecha de Nacimiento:</ion-header>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="userExtended.fechaNacimiento" name="fechaNacimiento">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker color="accent" #picker></mat-datepicker>
+        </mat-form-field>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" shape="round" class="ion-margin-top">
+        Guardar Información
+      </ion-button>
+
+    </ion-list>
+  </form>
+
+</ion-content>
