@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
@@ -21,7 +22,8 @@ export class AuthService {
 
   constructor(
     private storage: Storage,
-    private dbTaskService: DBTaskService
+    private dbTaskService: DBTaskService,
+    private router: Router
   ) {
     this.initStorage();
     this.dbTaskService.getDatabaseState().subscribe(ready => {
@@ -68,6 +70,7 @@ export class AuthService {
     this._isAuthenticated.next(false);
     this._currentUser.next(null);
     console.log('Cierre de sesión exitoso');
+    this.router.navigate(['/login']), { replaceUrl: true };
   } 
 
   async loadSession(): Promise<void> {
@@ -94,7 +97,7 @@ export class AuthService {
       console.error('Error al cargar la sesión:', error);
       this._isAuthenticated.next(false);
     }
-  }
+  } 
 
   isLoggedIn(): boolean {
     return this._isAuthenticated.getValue();

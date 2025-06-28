@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
+      console.log('Ya estas logueado. Redirigiendo a Home...');
       this.router.navigate(['/home']);
     }
   }
@@ -31,6 +32,7 @@ export class LoginPage implements OnInit {
     if (form.valid) {
       const success = await this.authService.login(this.credentials.username, this.credentials.password);
       if (success) {
+        console.log('Inicio de sesión exitoso. Redirigiendo a Home...');
         this.router.navigate(['/home']);
       }
     } else {

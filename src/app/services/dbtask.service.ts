@@ -158,7 +158,7 @@ export class DBTaskService {
 
   async getUserByUsername(username: string): Promise<User | null> {
     if (!this.database) return null;
-    const sql = `SELECT * FROM users WHERE username = ?;`;
+    const sql = `SELECT * FROM user WHERE username = ?;`;
     try {
       const res = await this.database.executeSql(sql, [username]);
       if (res.rows.length > 0) {
@@ -174,7 +174,7 @@ export class DBTaskService {
   async loadUsers() {
     if (!this.database) return;
     try {
-      const res = await this.database.executeSql('SELECT * FROM users;', []);
+      const res = await this.database.executeSql('SELECT * FROM user;', []);
       let users: User[] = [];
       for (let i = 0; i < res.rows.length; i++) {
         users.push(res.rows.item(i));

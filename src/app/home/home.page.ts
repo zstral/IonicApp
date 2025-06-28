@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -8,39 +10,31 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
 
   userData: any = {};
-  private _storage: Storage | null = null;
+  private userSubscription!: Subscription
 
   constructor(
-    private activeroute: ActivatedRoute,
     private router: Router,
-    private storage: Storage
+    private authService: AuthService
   ) {}
   
   async ngOnInit() {
-    this._storage = await this.storage.create();
-    let state = history.state;
-    if (state && state['userExtended']) {
-      this.userData = state['userExtended'];
-    } else {
-      this.activeroute.queryParams.subscribe(params => {
-        const currentNavigation = this.router.getCurrentNavigation();
-        if (currentNavigation?.extras.state?.['userExtended']) {
-          this.userData = currentNavigation.extras.state['userExtended'];
-        } else {
-          this.router.navigate(['/login'], { replaceUrl: true });
-        }
-      });
+    this.userSubscription = this.authService.currentUser$.subscribe(user => {
+      this.userData = user;
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+      console.log('Home: currentUser$ cancelado.');
     }
   }
 
   async logout() {
-    if (this._storage) {
-      await this._storage['remove']('tasks');
-    }
-    this.userData = null;
-    this.router.navigate(['/login', { replaceUrl: true }])
+    console.log('Cerrando sesión...');
+    await this.authService.logout();
   }
 }
