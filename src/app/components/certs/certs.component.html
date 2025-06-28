@@ -1,0 +1,54 @@
+<ion-content>
+  <form #certsForm="ngForm" (ngSubmit)="onSubmit(certsForm)">
+
+    <ion-item>
+      <ion-input label="Nombre del Certificado" labelPlacement="floating"
+                 name="name" [(ngModel)]="certData.name" required
+                 #nameField="ngModel" placeholder="Ej: Certified Scrum Master"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)">
+      <span *ngIf="nameField.errors?.['required']">El nombre del certificado es requerido.</span>
+    </div>
+
+    <ion-item lines="none" class="mat-form-field-wrapper">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Fecha de obtención</mat-label>
+        <input matInput [matDatepicker]="acquiredPicker"
+               name="acquiredDate"
+               [(ngModel)]="certData.acquiredDate"
+               required #acquiredDateField="ngModel"
+               (dateChange)="onDateSelected(acquiredDateField)" placeholder="Selecciona la fecha de adquisición">
+        <mat-datepicker-toggle matSuffix [for]="acquiredPicker"></mat-datepicker-toggle>
+        <mat-datepicker #acquiredPicker></mat-datepicker>
+        <mat-error *ngIf="acquiredDateField.invalid && (acquiredDateField.dirty || acquiredDateField.touched)">
+          <span *ngIf="acquiredDateField.errors?.['required']">La fecha de adquisición es requerida.</span>
+        </mat-error>
+      </mat-form-field>
+    </ion-item>
+
+    <ion-item lines="none">
+      <mat-slide-toggle [checked]="hasExpiration" (change)="onToggleExpirationChange($event)" class="expiration-toggle" labelPosition="before">
+        Tiene fecha de expiración
+      </mat-slide-toggle>
+    </ion-item>
+
+    <ng-container *ngIf="hasExpiration">
+      <ion-item lines="none" class="mat-form-field-wrapper">
+        <mat-form-field appearance="outline" class="full-width-field">
+          <mat-label>Fecha de Expiración</mat-label>
+          <input matInput [matDatepicker]="expirationPicker"
+                 name="expirationDate"
+                 [(ngModel)]="certData.expirationDate"
+                 #expirationDateField="ngModel"
+                 (dateChange)="onDateSelected(expirationDateField)" placeholder="Selecciona la fecha de expiración">
+          <mat-datepicker-toggle matSuffix [for]="expirationPicker"></mat-datepicker-toggle>
+          <mat-datepicker #expirationPicker></mat-datepicker>
+        </mat-form-field>
+      </ion-item>
+    </ng-container>
+
+    <ion-button expand="block" type="submit" shape="round" class="ion-margin-top" [disabled]="certsForm.invalid">
+      Guardar Certificación
+    </ion-button>
+  </form>
+</ion-content>

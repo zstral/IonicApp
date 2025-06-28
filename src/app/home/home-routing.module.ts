@@ -6,6 +6,21 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
+    children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./home.module').then(m => m.HomePageModule)
+      },
+      {
+        path: 'tasks',
+        loadChildren: () => import('../pages/tasks/tasks.module').then(m => m.TasksPageModule)
+      },
+      {
+        path: '',
+        redirectTo: 'tashomeks',
+        pathMatch: 'full'
+      }
+    ]
   }
 ];
 

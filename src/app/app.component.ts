@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DBTaskService } from './services/dbtask.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
-export class AppComponent {
-  constructor() {}
+export class AppComponent implements OnInit {
+
+  constructor(private dbTaskService: DBTaskService) {}
+
+  ngOnInit() {
+
+    this.dbTaskService.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        console.log('DB lista');
+      }
+    });
+
+  }
 }

@@ -6,26 +6,25 @@
 
 <ion-content [fullscreen]="true">
 
-  <form #loginForm="ngForm" (ngSubmit)="login()">
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
     <ion-list>
 
       <ion-item>
         <ion-input type="text"
-                  [(ngModel)]="username"
+                  [(ngModel)]="credentials.username"
                   name="username"
                   required
                   minLenght="3"
                   maxLenght="8"
                   #usernameInput="ngModel"
-                  (ngModelChange)="username"
                   label="Nombre de usuario"
                   labelPlacement="floating">
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input type="password"
-                  [(ngModel)]="password"
+        <ion-input type="credentials.password"
+                  [(ngModel)]="credentials.password"
                   name="password"
                   required
                   minLenght="4"
@@ -40,7 +39,6 @@
     <ion-button expand="block"
                 shape="round"
                 type="submit"
-                (click)="login()"
                 [disabled]="!loginForm.valid"
     >
       Iniciar Sesión

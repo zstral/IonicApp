@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>tasks</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-input
+      placeholder="Nueva tarea"
+      [(ngModel)]="newTaskTitle"
+      (keyup.enter)="addTask()"
+    ></ion-input>
+    <ion-select
+      placeholder="Categoría"
+      [(ngModel)]="newTaskCategory"
+      interface="popover"
+    >
+      <ion-select-option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </ion-select-option>
+    </ion-select>
+    <ion-button slot="end" (click)="addTask()">Agregar</ion-button>
+  </ion-item>
+
+  <ion-segment [(ngModel)]="selectedCategory" (ionChange)="filterTasks()">
+    <ion-segment-button value="Todas">
+      <ion-label>Todas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button *ngFor="let category of categories" [value]="category">
+      <ion-label>{{ category }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-list>
+    <ion-item *ngFor="let task of filteredTasks">
+      <ion-checkbox
+        slot="start"
+        [checked]="task.completed"
+        (ionChange)="toggleTaskCompletion(task)"
+      ></ion-checkbox>
+      <ion-label [ngClass]="getCategoryClass(task)">
+        {{ task.title }} {{ task.category ? '(' + task.category + ')' : '' }}
+      </ion-label>
+      <ion-button *ngIf="task.id !== undefined" slot="end" color="danger" (click)="deleteTask(task.id)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
