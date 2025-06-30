@@ -2,10 +2,10 @@
     height: 100%;
 }
 
-form {
-}
-
 .error-message {
-    color: red;
-    padding: 20px;
-}
+    color: var(--ion-color-danger, #eb445a);
+    font-size: 0.8em;
+    padding-left: 16px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+  }

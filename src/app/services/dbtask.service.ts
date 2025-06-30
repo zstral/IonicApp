@@ -20,7 +20,10 @@ export class DBTaskService {
   private _tasks = new BehaviorSubject<Task[]>([]);
   private _exps = new BehaviorSubject<Experience[]>([]);
   private _certs = new BehaviorSubject<Certs[]>([]);
-  
+
+  public readonly experiences$: Observable<Experience[]> = this._exps.asObservable();
+  public readonly certs$: Observable<Certs[]> = this._certs.asObservable();
+
   users: Observable<User[]> = this._users.asObservable();
   tasks: Observable<Task[]> = this._tasks.asObservable();
   exps: Observable<Experience[]> = this._exps.asObservable();
@@ -267,7 +270,7 @@ export class DBTaskService {
   async addExperience(exp: Experience): Promise<boolean> {
     if (!this.database) return false;
     const sql = `
-      INSERT INTO exp (company, startYear, currentJob, endYear, jobPosition)
+      INSERT INTO experience (company, startYear, currentJob, endYear, jobPosition)
       VALUES (?, ?, ?, ?, ?);
     `;
     const data = [
@@ -292,7 +295,7 @@ export class DBTaskService {
   async updateExperience(exp: Experience): Promise<boolean> {
     if (!this.database) return false;
     const sql = `
-      UPDATE exp
+      UPDATE experience
       SET company = ?, startYear = ?, currentJob = ?, endYear = ?, jobPosition = ?
       WHERE id = ?;
     `;
@@ -318,7 +321,7 @@ export class DBTaskService {
 
   async deleteExperience(id: number): Promise<boolean> {
     if (!this.database) return false;
-    const sql = `DELETE FROM exp WHERE id = ?;`;
+    const sql = `DELETE FROM experience WHERE id = ?;`;
     try {
       const res = await this.database.executeSql(sql, [id]);
       this.loadExperiences();
@@ -334,7 +337,7 @@ export class DBTaskService {
   async loadExperiences() {
     if (!this.database) return;
     try {
-      const res = await this.database.executeSql('SELECT * FROM exp;', []);
+      const res = await this.database.executeSql('SELECT * FROM experience;', []);
       let experiences: Experience[] = [];
       for (let i = 0; i < res.rows.length; i++) {
         const item = res.rows.item(i);
@@ -347,6 +350,10 @@ export class DBTaskService {
     } catch (e) {
       console.error('Error al cargar experiencias:', e);
     }
+  }
+
+   getExperiencesObservable(): Observable<Experience[]> {
+    return this.experiences$;
   }
 
   // ---Certs
@@ -425,6 +432,10 @@ export class DBTaskService {
     } catch (e) {
       console.error('Error al cargar certificaciones:', e);
     }
+  }
+
+  getCertsObservable(): Observable<Certs[]> {
+    return this.certs$;
   }
 
 }

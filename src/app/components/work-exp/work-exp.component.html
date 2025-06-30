@@ -1,58 +1,89 @@
-<ion-content [fullscreen]="true" class="work-exp-content">
+<ion-content class="ion-padding">
   <form #expForm="ngForm" ngSubmit="onSubmit(expForm)">
     
+    <ion-item>
+      <ion-input type="text" label="Empresa" labelPlacement="floating"
+                name="company" [(ngModel)]="expData.company" required
+                #companyField="ngModel" placeholder="Empresa"
+      >
+      </ion-input>
+    </ion-item>
+    <div *ngIf="companyField.invalid && (companyField.dirty || companyField.touched)" class="error-message">
+      <div *ngIf="companyField.errors?.['required']">El nombre de la empresa es requerido.</div>
+    </div>
+
+    <ion-item>
+      <ion-input type="number" label="Año de Inicio" labelPlacement="floating"
+                name="startYear" [(ngModel)]="expData.startYear" required
+                pattern="^\d{4}$" #startYearField="ngModel" placeholder="YYYY"></ion-input>
+    </ion-item>
+    <div *ngIf="startYearField.invalid && (startYearField.dirty || startYearField.touched)" class="error-message">
+      <div *ngIf="startYearField.errors?.['required']">El año de inicio es requerido.</div>
+      <div *ngIf="startYearField.errors?.['pattern']">El año de inicio debe ser un número de 4 dígitos (YYYY).</div>
+    </div>
+
+    <ion-item lines="none" class="mat-slide-toggle-wrapper">
+      <ion-label>¿Es tu trabajo actual?</ion-label>
+      <mat-slide-toggle name="currentJob" [(ngModel)]="expData.currentJob" (change)="onCurrentJobChange($event)" labelPosition="before">
+      </mat-slide-toggle>
+    </ion-item>
+
+    <ng-container *ngIf="!expData.currentJob">
       <ion-item>
-        <ion-input type="text" label="Empresa" labelPlacement="floating"
-                  name="company" [(ngModel)]="expData.company" required
-                  #companyField="ngModel" placeholder="Empresa"
-        >
-        </ion-input>
+        <ion-input label="Año de Fin" labelPlacement="floating"
+                  name="endYear" [(ngModel)]="expData.endYear"
+                  [required]="!expData.currentJob"
+                  pattern="^\d{4}$" #endYearField="ngModel" type="number" placeholder="YYYY"></ion-input>
       </ion-item>
-      <div *ngIf="companyField.invalid && (companyField.dirty || companyField.touched)" class="error-message">
-        <div *ngIf="companyField.errors?.['required']">El nombre de la empresa es requerido.</div>
+      <div *ngIf="endYearField.invalid && (endYearField.dirty || endYearField.touched)" class="error-message">
+        <div *ngIf="endYearField.errors?.['required']">El año de fin es requerido si no es trabajo actual.</div>
+        <div *ngIf="endYearField.errors?.['pattern']">El año de fin debe ser un número de 4 dígitos (YYYY).</div>
       </div>
+    </ng-container>
 
-      <ion-item>
-        <ion-input type="number" label="Año de Inicio" labelPlacement="floating"
-                  name="startYear" [(ngModel)]="expData.startYear" required
-                  pattern="^\d{4}$" #startYearField="ngModel" placeholder="YYYY"></ion-input>
-      </ion-item>
-      <div *ngIf="startYearField.invalid && (startYearField.dirty || startYearField.touched)" class="error-message">
-        <div *ngIf="startYearField.errors?.['required']">El año de inicio es requerido.</div>
-        <div *ngIf="startYearField.errors?.['pattern']">El año de inicio debe ser un número de 4 dígitos (YYYY).</div>
-      </div>
+    <ion-item>
+      <ion-input label="Cargo" labelPlacement="floating"
+                name="jobPosition" [(ngModel)]="expData.jobPosition" required
+                #jobPositionField="ngModel" placeholder="Tu cargo"></ion-input>
+    </ion-item>
+    <div *ngIf="jobPositionField.invalid && (jobPositionField.dirty || jobPositionField.touched)" class="error-message">
+      <div *ngIf="jobPositionField.errors?.['required']">El cargo es requerido.</div>
+    </div>
 
-      <ion-item lines="none" class="mat-slide-toggle-wrapper">
-        <mat-slide-toggle name="currentJob" [(ngModel)]="expData.currentJob"
-                          (change)="onCurrentJobChange($event)" labelPosition="before"> Trabajo Actual
-        </mat-slide-toggle>
-      </ion-item>
-
-      <ng-container *ngIf="!expData.currentJob">
-        <ion-item>
-          <ion-input label="Año de Fin" labelPlacement="floating"
-                    name="endYear" [(ngModel)]="expData.endYear"
-                    [required]="!expData.currentJob"
-                    pattern="^\d{4}$" #endYearField="ngModel" type="number" placeholder="YYYY"></ion-input>
-        </ion-item>
-        <div *ngIf="endYearField.invalid && (endYearField.dirty || endYearField.touched)" class="error-message">
-          <div *ngIf="endYearField.errors?.['required']">El año de fin es requerido si no es trabajo actual.</div>
-          <div *ngIf="endYearField.errors?.['pattern']">El año de fin debe ser un número de 4 dígitos (YYYY).</div>
-        </div>
-      </ng-container>
-
-      <ion-item>
-        <ion-input label="Cargo" labelPlacement="floating"
-                  name="jobPosition" [(ngModel)]="expData.jobPosition" required
-                  #jobPositionField="ngModel" placeholder="Tu cargo"></ion-input>
-      </ion-item>
-      <div *ngIf="jobPositionField.invalid && (jobPositionField.dirty || jobPositionField.touched)" class="error-message">
-        <div *ngIf="jobPositionField.errors?.['required']">El cargo es requerido.</div>
-      </div>
-
-      <ion-button expand="block" type="submit" [disabled]="expForm.invalid">
-        Guardar
-      </ion-button>
-
+    <ion-button expand="block" type="submit" [disabled]="expForm.invalid" shape="round">
+      Guardar
+    </ion-button>
+    <ion-button expand="block" fill="outline" color="medium" (click)="resetForm()">
+    Limpiar Formulario
+    </ion-button>
   </form>
+
+  <ion-list class="ion-margin-top" *ngIf="experiencesList.length > 0">
+    <ion-list-header>
+      <ion-label>Experiencias Laborales</ion-label>
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let exp of experiencesList">
+      <ion-item>
+        <ion-label>
+          <h2>{{ exp.jobPosition }} en {{ exp.company }}</h2>
+          <p>
+            {{ exp.startYear }} -
+            <span *ngIf="exp.currentJob">Actual</span>
+            <span *ngIf="!exp.currentJob && exp.endYear">{{ exp.endYear }}</span>
+            <span *ngIf="!exp.currentJob && !exp.endYear">**Fin no especificado**</span>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteExperience(exp.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-text *ngIf="experiencesList.length === 0" class="ion-text-center ion-margin-top">
+    <p>No hay experiencias laborales guardadas aún.</p>
+  </ion-text>
+
 </ion-content>
