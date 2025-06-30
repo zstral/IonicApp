@@ -17,6 +17,14 @@ const routes: Routes = [
         loadChildren: () => import('../tasks/tasks.module').then(m => m.TasksPageModule)
       },
       {
+        path: 'camera-tab',
+        loadChildren: () => import('../camera-tab/camera-tab.module').then( m => m.CameraTabPageModule)
+      },
+      {
+        path: 'map-tab',
+        loadChildren: () => import('../map-tab/map-tab.module').then( m => m.MapTabPageModule)
+      },
+      {
         path: 'my-profile',
         loadChildren: () => import('../my-profile/my-profile.module').then(m => m.MyProfilePageModule)
       },

@@ -5,7 +5,6 @@ import { Task } from '../../models/task.model';
 import { DBTaskService } from 'src/app/services/dbtask.service';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.page.html',
@@ -33,7 +32,9 @@ export class TasksPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.initStorage();
+
+    this.dbTaskService.loadTasks();
+
     this.dbReadySubscription = this.dbTaskService.getDatabaseState().subscribe(ready => {
       if (ready) {
         this.tasksSubscription = this.dbTaskService.tasks.subscribe(tasks => {

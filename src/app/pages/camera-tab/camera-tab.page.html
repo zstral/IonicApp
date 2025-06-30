@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Cámara</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" (click)="takePhoto()">
+    <ion-icon slot="start" name="camera"></ion-icon>
+    Tomar Foto
+  </ion-button>
+
+  <div *ngIf="photo" class="ion-text-center ion-margin-top">
+    <h2>Tu Foto :)</h2>
+    <img [src]="photo" alt="Foto tomada" style="max-width: 100%; border: 1px solid #ddd; border-radius: 8px;" />
+  </div>
+
+  <ion-item *ngIf="!photo" lines="none" class="ion-margin-top">
+    <ion-label class="ion-text-center">Presiona "Tomar Foto" para ver tu imagen aquí.</ion-label>
+  </ion-item>
+</ion-content>

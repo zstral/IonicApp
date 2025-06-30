@@ -251,13 +251,15 @@ export class DBTaskService {
       for (let i = 0; i < res.rows.length; i++) {
         const item = res.rows.item(i);
         tasks.push({
-          ...item,
-          completed: this.mapSQliteToBoolean(item.completed)
+          id: item.id,
+          title: item.title,
+          completed: this.mapSQliteToBoolean(item.completed),
+          category: item.category
         });
       }
       this._tasks.next(tasks);
-    } catch (e) {
-      console.error('Error al cargar tareas:', e);
+    } catch (error) {
+      console.error('Error al cargar tareas:', error);
     }
   }
 
