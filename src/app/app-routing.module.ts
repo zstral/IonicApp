@@ -9,8 +9,13 @@ const routes: Routes = [
     canActivate: [AuthguardService]
   },
   {
+    path: 'main',
+    loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule),
+    canActivate: [AuthguardService]
+  },
+  {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'main',
     pathMatch: 'full'
   },
   {

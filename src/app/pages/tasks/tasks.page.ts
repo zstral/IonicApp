@@ -30,11 +30,10 @@ export class TasksPage implements OnInit, OnDestroy {
     private storage: Storage,
     private router: Router,
     private dbTaskService: DBTaskService
-  ) {
-    this.initStorage();
-  }
+  ) { }
 
   ngOnInit() {
+    this.initStorage();
     this.dbReadySubscription = this.dbTaskService.getDatabaseState().subscribe(ready => {
       if (ready) {
         this.tasksSubscription = this.dbTaskService.tasks.subscribe(tasks => {

@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
       console.log('Ya estas logueado. Redirigiendo a Home...');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/main']);
     }
   }
 
@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
       const success = await this.authService.login(this.credentials.username, this.credentials.password);
       if (success) {
         console.log('Inicio de sesión exitoso. Redirigiendo a Home...');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/main']);
       }
     } else {
       console.log('El formulario no es valido.');

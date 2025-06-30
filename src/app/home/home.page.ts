@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 
@@ -16,7 +14,6 @@ export class HomePage implements OnInit, OnDestroy {
   private userSubscription!: Subscription
 
   constructor(
-    private router: Router,
     private authService: AuthService
   ) {}
   
@@ -33,8 +30,4 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  async logout() {
-    console.log('Cerrando sesión...');
-    await this.authService.logout();
-  }
 }

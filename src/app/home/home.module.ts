@@ -4,7 +4,6 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
-import { MyDataComponent } from '../components/my-data/my-data.component';
 
 @NgModule({
   imports: [
@@ -12,7 +11,6 @@ import { MyDataComponent } from '../components/my-data/my-data.component';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    MyDataComponent
   ],
   declarations: [
     HomePage
