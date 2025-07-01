@@ -1,6 +1,7 @@
 <ion-content class="ion-padding">
-  <form #certForm="ngForm" (ngSubmit)="onSubmit(certForm)"> <ion-list>
-
+  <form #certForm="ngForm" (ngSubmit)="onSubmit(certForm)">
+    
+    <ion-list>
       <ion-item>
           <ion-input type="text" label="Nombre certificado" labelPlacement="floating"
                 [(ngModel)]="certData.name" name="name" required #nameField="ngModel"
@@ -13,7 +14,7 @@
       </div>
 
       <ion-item>
-        <mat-form-field appearance="standard" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Fecha de Adquisición</mat-label>
           <input matInput [matDatepicker]="acquiredPicker" [(ngModel)]="certData.acquiredDate" name="acquiredDate"
                  (dateInput)="onDateSelected(acquiredField)" required #acquiredField="ngModel">
@@ -32,7 +33,7 @@
       </ion-item>
 
       <ion-item *ngIf="hasExpiration">
-        <mat-form-field appearance="standard" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Fecha de Vencimiento</mat-label>
           <input matInput [matDatepicker]="expirationPicker" [(ngModel)]="certData.expirationDate" name="expirationDate"
                  (dateInput)="onDateSelected(expirationField)" [required]="hasExpiration" #expirationField="ngModel">
