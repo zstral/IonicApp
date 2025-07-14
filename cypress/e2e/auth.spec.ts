@@ -29,52 +29,52 @@ describe('Pruebas E2E de Autenticación y Flujos Clave', () => {
     cy.url().should('include', '/main');
   });
 
-  // it('Debería permitir un registro de usuario exitoso.', () => {
-  //   cy.visit('/signup', {
-  //     onBeforeLoad(win) {
-  //       setupWindowSQLiteMock(win as any);
-  //     }
-  //   });
+  it('Debería permitir un registro de usuario exitoso.', () => {
+    cy.visit('/signup', {
+      onBeforeLoad(win) {
+        setupWindowSQLiteMock(win as any);
+      }
+    });
 
-  //   cy.get('ion-input[name="username"] input').type('newuser');
-  //   cy.get('ion-input[name="password"] input').type('newpassword123');
-  //   cy.get('ion-button[type="submit"]').click();
+    cy.get('ion-input[name="username"] input').type('newuser');
+    cy.get('ion-input[name="password"] input').type('newpassword123');
+    cy.get('ion-button[type="submit"]').click();
 
-  //   cy.url().should('include', '/signup-extended');
-  //   cy.get('ion-input[name="nombre"] input').type('Nuevo');
-  //   cy.get('ion-input[name="apellido"] input').type('Usuario');
-  //   cy.get('ion-select[name="nivelEducacion"]').click();
-  //   cy.get('ion-alert .alert-radio-group button').contains('Técnico').click();
-  //   cy.get('ion-alert .alert-button-group button').contains('OK').click();
-  //   cy.get('input[name="fechaNacimiento"]')
-  //   .should('be.visible')
-  //   .invoke('val', '01-01-2025')
-  //   .trigger('change')
-  //   .trigger('input');
-  //   cy.get('ion-button[type="submit"]').last().click();
+    cy.url().should('include', '/signup-extended');
+    cy.get('ion-input[name="nombre"] input').type('Nuevo');
+    cy.get('ion-input[name="apellido"] input').type('Usuario');
+    cy.get('ion-select[name="nivelEducacion"]').click();
+    cy.get('ion-alert .alert-radio-group button').contains('Técnico').click();
+    cy.get('ion-alert .alert-button-group button').contains('OK').click();
+    cy.get('input[name="fechaNacimiento"]')
+    .should('be.visible')
+    .invoke('val', '01-01-2025')
+    .trigger('change')
+    .trigger('input');
+    cy.get('ion-button[type="submit"]').last().click();
 
-  //   cy.url().should('include', '/home');
-  // });
+    cy.url().should('include', '/home');
+  });
 
-  // it('Debería mostrar un mensaje de consola "User not found" al intentar iniciar sesión con credenciales incorrectas.', () => {
-  //   cy.visit('/login', {
-  //     onBeforeLoad(win) {
-  //       setupWindowSQLiteMock(win as any);
-  //     }
-  //   });
+  it('Debería mostrar un mensaje de consola "User not found" al intentar iniciar sesión con credenciales incorrectas.', () => {
+    cy.visit('/login', {
+      onBeforeLoad(win) {
+        setupWindowSQLiteMock(win as any);
+      }
+    });
 
-  //   cy.get('ion-input[name="username"] input').type('wronguser');
-  //   cy.get('ion-input[name="password"] input').type('wrongpass');
-  //   cy.get('ion-button[type="submit"]').click();
+    cy.get('ion-input[name="username"] input').type('wronguser');
+    cy.get('ion-input[name="password"] input').type('wrongpass');
+    cy.get('ion-button[type="submit"]').click();
 
-  //   cy.url().should('not.include', '/main');
-  //   cy.url().should('include', '/login');
-  // });
+    cy.url().should('not.include', '/main');
+    cy.url().should('include', '/login');
+  });
 
-  // it('Debería redirigir a inicio de sesión al intentar acceder a /main sin iniciar sesión. (AuthGuard: Acceso denegado) en consola.', () => {
-  //   cy.visit('/main');
+  it('Debería redirigir a inicio de sesión al intentar acceder a /main sin iniciar sesión. (AuthGuard: Acceso denegado) en consola.', () => {
+    cy.visit('/main');
 
-  //   cy.url().should('not.include', '/main');
-  //   cy.url().should('include', '/login');
-  // });
+    cy.url().should('not.include', '/main');
+    cy.url().should('include', '/login');
+  });
 });
