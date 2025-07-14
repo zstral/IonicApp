@@ -1,5 +1,13 @@
-.certs-content {
-    height: 100%;
+ion-list { 
+    border-radius: 10px;
+}
+
+ion-item {
+    margin-bottom: 10px;
+}
+
+mat-form-field {
+    width: 100%;
 }
 
 .error-message {

@@ -16,6 +16,7 @@ export class MyProfilePage implements OnInit, OnDestroy {
 
   userProfile: User | null = null;
   private userSubscription: Subscription | undefined;
+  profilePictureUrl: string | null = null;
 
   constructor(private authService: AuthService) { }
 
@@ -24,11 +25,23 @@ export class MyProfilePage implements OnInit, OnDestroy {
       this.userProfile = user;
       console.log('Datos de perfil cargados en ProfilePage:', this.userProfile);
     });
+    this.loadProfilePicture();
   }
 
   ngOnDestroy() {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+    }
+  }
+
+  loadProfilePicture() {
+    const storedPicture = localStorage.getItem('profilePicture');
+    if (storedPicture) {
+      this.profilePictureUrl = storedPicture;
+      console.log('Foto de perfil cargada de LocalStorage.');
+    } else {
+      this.profilePictureUrl = null;
+      console.log('No hay foto de perfil guardada.');
     }
   }
 

@@ -1,4 +1,10 @@
 <ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Datos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="my-data-content">
   <ion-segment>
     <ion-segment-button value="experencia" content-id="tab1">
       <ion-label>Experiencia Laboral</ion-label>
@@ -9,9 +15,7 @@
       <ion-icon name="school-outline"></ion-icon>
     </ion-segment-button>
   </ion-segment>
-</ion-header>
 
-<ion-content class="my-data-content">
   <ion-segment-view>
     <ion-segment-content id="tab1">
       <app-work-exp></app-work-exp>

@@ -14,7 +14,7 @@
       </div>
 
       <ion-item>
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="outline" class="full-width ion-margin-top">
           <mat-label>Fecha de Adquisición</mat-label>
           <input matInput [matDatepicker]="acquiredPicker" [(ngModel)]="certData.acquiredDate" name="acquiredDate"
                  (dateInput)="onDateSelected(acquiredField)" required #acquiredField="ngModel">
@@ -33,7 +33,7 @@
       </ion-item>
 
       <ion-item *ngIf="hasExpiration">
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="outline" class="full-width ion-margin-top">
           <mat-label>Fecha de Vencimiento</mat-label>
           <input matInput [matDatepicker]="expirationPicker" [(ngModel)]="certData.expirationDate" name="expirationDate"
                  (dateInput)="onDateSelected(expirationField)" [required]="hasExpiration" #expirationField="ngModel">
@@ -46,10 +46,10 @@
       </ion-item>
     </ion-list>
 
-    <ion-button expand="full" type="submit" [disabled]="certForm.invalid" shape="round">
+    <ion-button class="ion-margin-top" expand="full" type="submit" [disabled]="certForm.invalid" shape="round">
       Guardar Certificado
     </ion-button>
-    <ion-button expand="full" fill="outline" color="medium" (click)="resetForm()" shape="round">
+    <ion-button class="ion-margin-top" expand="full" fill="outline" color="medium" (click)="resetForm()" shape="round">
       Limpiar Formulario
     </ion-button>
   </form>

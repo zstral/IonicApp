@@ -7,15 +7,21 @@
 <ion-content class="ion-padding">
   <ion-button expand="block" (click)="takePhoto()">
     <ion-icon slot="start" name="camera"></ion-icon>
-    Tomar Foto
+    Tomar foto
   </ion-button>
 
-  <div *ngIf="photo" class="ion-text-center ion-margin-top">
-    <h2>Tu Foto :)</h2>
-    <img [src]="photo" alt="Foto tomada" style="max-width: 100%; border: 1px solid #ddd; border-radius: 8px;" />
-  </div>
+  <div *ngIf="photo">
+    <h2>Previsualización de la foto</h2>
+    <img [src]="photo" alt="Foto Capturada" class="captured-image" />
 
-  <ion-item *ngIf="!photo" lines="none" class="ion-margin-top">
-    <ion-label class="ion-text-center">Presiona "Tomar Foto" para ver tu imagen aquí.</ion-label>
-  </ion-item>
+    <ion-button expand="block" color="primary" (click)="setProfilePicture()">
+      <ion-icon slot="start" name="person-circle"></ion-icon>
+      Establecer como Foto de Perfil
+    </ion-button>
+
+    <ion-button expand="block" color="medium" (click)="retakePicture()">
+      <ion-icon slot="start" name="refresh-circle"></ion-icon>
+      Volver a tomar
+    </ion-button>
+  </div>
 </ion-content>

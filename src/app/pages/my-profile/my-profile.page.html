@@ -15,7 +15,10 @@
   <ion-card *ngIf="userProfile">
     <ion-card-header>
       <ion-card-title class="ion-text-center">
-        <ion-icon name="person-circle-outline" size="large"></ion-icon>
+        <div class="profile-picture-container">
+          <img *ngIf="profilePictureUrl" [src]="profilePictureUrl" alt="Foto de Perfil" class="profile-picture" />
+          <ion-icon *ngIf="!profilePictureUrl" name="person-circle-outline" size="large" class="default-profile-icon"></ion-icon>
+        </div>
         <br>
         {{ userProfile.nombre }} {{ userProfile.apellido }}
       </ion-card-title>

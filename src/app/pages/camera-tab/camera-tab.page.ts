@@ -13,6 +13,7 @@ import { Platform } from '@ionic/angular';
 export class CameraTabPage implements OnInit {
 
   photo: SafeResourceUrl | undefined;
+  capturedImageForProfile: string | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -40,16 +41,37 @@ export class CameraTabPage implements OnInit {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
+        source: CameraSource.Camera,
+        promptLabelHeader: 'Tomar Foto',
+        promptLabelPhoto: 'Seleccionar de Galería',
+        promptLabelPicture: 'Tomar Foto',
       });
 
       if (capturedPhoto && capturedPhoto.webPath) {
         this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(capturedPhoto.webPath);
+        this.capturedImageForProfile = capturedPhoto.webPath;
         console.log('Foto tomada y lista para mostrar:', capturedPhoto.webPath);
       }
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       this.photo = undefined;
+      this.capturedImageForProfile = null;
     }
+  }
+
+  setProfilePicture() {
+    if (this.capturedImageForProfile) {
+      localStorage.setItem('profilePicture', this.capturedImageForProfile);
+      console.log('Foto de perfil guardada en LocalStorage:', this.capturedImageForProfile);
+      this.photo = undefined;
+      this.capturedImageForProfile = null;
+    } else {
+      console.warn('No hay una foto tomada.');
+    }
+  }
+
+  retakePicture() {
+    this.photo = undefined;
+    this.capturedImageForProfile = null;
   }
 }
