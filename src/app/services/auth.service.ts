@@ -63,19 +63,18 @@ export class AuthService {
 
   async logout(): Promise<void> {
     if (!this._storage) {
-      console.error('No se ha inicializado el almacenamiento.');
       return;
     }
     await this._storage.remove(USER_SESSION_KEY);
     this._isAuthenticated.next(false);
     this._currentUser.next(null);
     console.log('Cierre de sesión exitoso');
-    this.router.navigate(['/login']), { replaceUrl: true };
+    this.router.navigate(['/login'], { replaceUrl: true });
   } 
 
   async loadSession(): Promise<void> {
     if (!this._storage) {
-      console.error('No se ha inicializado el almacenamiento. Reitentando...');
+      console.error('No se ha inicializado el almacenamiento.');
       await new Promise(resolve => setTimeout(resolve, 500));
       if (!this._storage) {
         console.error('Error: No se ha podido cargar la sesión.');
