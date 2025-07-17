@@ -1,58 +1,73 @@
 <ion-content class="ion-padding">
-  <form #certForm="ngForm" (ngSubmit)="onSubmit(certForm)">
-    
-    <ion-list>
-      <ion-item>
-          <ion-input type="text" label="Nombre certificado" labelPlacement="floating"
-                [(ngModel)]="certData.name" name="name" required #nameField="ngModel"
-                placeholder="Certificado"
-          >
-          </ion-input>
-      </ion-item>
-      <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="error-message">
-        <div *ngIf="nameField.errors?.['required']">El nombre del certificado es requerido.</div>
+
+  <ion-accordion-group>
+    <ion-accordion value="Formulario">
+    <ion-item slot="header" class="accordion">
+      <ion-label>Agregar certificado</ion-label>
+    </ion-item>
+      <div slot="content">
+        <form #certForm="ngForm" (ngSubmit)="onSubmit(certForm)">
+          
+          <ion-list>
+            <ion-item>
+                <ion-input type="text" label="Nombre certificado" labelPlacement="floating"
+                      [(ngModel)]="certData.name" name="name" required #nameField="ngModel"
+                      placeholder="Certificado"
+                >
+                </ion-input>
+            </ion-item>
+            <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="error-message">
+              <div *ngIf="nameField.errors?.['required']">El nombre del certificado es requerido.</div>
+            </div>
+
+            <ion-item>
+              <mat-form-field appearance="outline" class="full-width ion-margin-top">
+                <mat-label>Fecha de Adquisición</mat-label>
+                <input matInput [matDatepicker]="acquiredPicker" [(ngModel)]="certData.acquiredDate" name="acquiredDate"
+                      (dateInput)="onDateSelected(acquiredField)" required #acquiredField="ngModel">
+                <mat-datepicker-toggle matSuffix [for]="acquiredPicker"></mat-datepicker-toggle>
+                <mat-datepicker #acquiredPicker></mat-datepicker>
+                <mat-error *ngIf="acquiredField.invalid && (acquiredField.dirty || acquiredField.touched)">
+                  La fecha de adquisición es requerida.
+                </mat-error>
+              </mat-form-field>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>¿Tiene fecha de vencimiento?</ion-label>
+              <mat-slide-toggle [(ngModel)]="hasExpiration" name="hasExpiration" (change)="onToggleExpirationChange($event)">
+              </mat-slide-toggle>
+            </ion-item>
+
+            <ion-item *ngIf="hasExpiration">
+              <mat-form-field appearance="outline" class="full-width ion-margin-top">
+                <mat-label>Fecha de Vencimiento</mat-label>
+                <input matInput [matDatepicker]="expirationPicker" [(ngModel)]="certData.expirationDate" name="expirationDate"
+                      (dateInput)="onDateSelected(expirationField)" [required]="hasExpiration" #expirationField="ngModel">
+                <mat-datepicker-toggle matSuffix [for]="expirationPicker"></mat-datepicker-toggle>
+                <mat-datepicker #expirationPicker></mat-datepicker>
+                <mat-error *ngIf="expirationField.invalid && (expirationField.dirty || expirationField.touched)">
+                  La fecha de vencimiento es requerida si está activada.
+                </mat-error>
+              </mat-form-field>
+            </ion-item>
+
+            <div class= "btn-container">
+              <ion-button class="ion-margin-top" expand="full" type="submit" [disabled]="certForm.invalid" shape="round">
+                Guardar
+              </ion-button>
+              <ion-button class="ion-margin-top" expand="full" fill="outline" color="medium" (click)="resetForm()" shape="round">
+                Limpiar
+              </ion-button>
+            </div>
+
+          </ion-list>
+
+          
+        </form>
       </div>
-
-      <ion-item>
-        <mat-form-field appearance="outline" class="full-width ion-margin-top">
-          <mat-label>Fecha de Adquisición</mat-label>
-          <input matInput [matDatepicker]="acquiredPicker" [(ngModel)]="certData.acquiredDate" name="acquiredDate"
-                 (dateInput)="onDateSelected(acquiredField)" required #acquiredField="ngModel">
-          <mat-datepicker-toggle matSuffix [for]="acquiredPicker"></mat-datepicker-toggle>
-          <mat-datepicker #acquiredPicker></mat-datepicker>
-          <mat-error *ngIf="acquiredField.invalid && (acquiredField.dirty || acquiredField.touched)">
-            La fecha de adquisición es requerida.
-          </mat-error>
-        </mat-form-field>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>¿Tiene fecha de vencimiento?</ion-label>
-        <mat-slide-toggle [(ngModel)]="hasExpiration" name="hasExpiration" (change)="onToggleExpirationChange($event)">
-        </mat-slide-toggle>
-      </ion-item>
-
-      <ion-item *ngIf="hasExpiration">
-        <mat-form-field appearance="outline" class="full-width ion-margin-top">
-          <mat-label>Fecha de Vencimiento</mat-label>
-          <input matInput [matDatepicker]="expirationPicker" [(ngModel)]="certData.expirationDate" name="expirationDate"
-                 (dateInput)="onDateSelected(expirationField)" [required]="hasExpiration" #expirationField="ngModel">
-          <mat-datepicker-toggle matSuffix [for]="expirationPicker"></mat-datepicker-toggle>
-          <mat-datepicker #expirationPicker></mat-datepicker>
-          <mat-error *ngIf="expirationField.invalid && (expirationField.dirty || expirationField.touched)">
-            La fecha de vencimiento es requerida si está activada.
-          </mat-error>
-        </mat-form-field>
-      </ion-item>
-    </ion-list>
-
-    <ion-button class="ion-margin-top" expand="full" type="submit" [disabled]="certForm.invalid" shape="round">
-      Guardar Certificado
-    </ion-button>
-    <ion-button class="ion-margin-top" expand="full" fill="outline" color="medium" (click)="resetForm()" shape="round">
-      Limpiar Formulario
-    </ion-button>
-  </form>
+    </ion-accordion>
+  </ion-accordion-group>
 
   <ion-list class="ion-margin-top" *ngIf="certsList.length > 0">
     <ion-list-header>

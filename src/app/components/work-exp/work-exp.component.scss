@@ -6,6 +6,18 @@ ion-item {
     margin-bottom: 10px;
 }
 
+.accordion {
+    border-radius: 50px;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+}
+
 .error-message {
     color: var(--ion-color-danger, #eb445a);
     font-size: 0.8em;
